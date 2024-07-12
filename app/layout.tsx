@@ -1,11 +1,13 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Inter, Urbanist } from 'next/font/google'
+import dayjs from 'dayjs'
 
 import { Menu } from '@/components/menu'
 
 import './globals.css'
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
+const urbanist = Urbanist({ subsets: ['latin'], variable: '--font-urbanist' })
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -20,12 +22,24 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.className} antialiased flex items-center justify-center w-screen h-screen`}
+        className={`${inter.variable} ${urbanist.variable} antialiased flex overflow-hidden items-center justify-center w-screen h-screen`}
       >
-        <main className="max-w-[1240px] h-[800px] mx-auto flex border dark:border-zinc-800 shadow-2xl shadow-zinc-900">
+        <main className="max-w-[1240px] h-[800px] mx-auto flex border dark:border-zinc-800 shadow-lg shadow-zinc-900">
           <Menu />
 
-          <div className="h-full w-[calc(100vw_-_24rem)]">{children}</div>
+          <div className="h-[800px] w-[calc(100vw_-_24rem)] overflow-auto bg-zinc-900">
+            <header className="flex items-center px-5 h-10 border-b dark:border-zinc-800 justify-between">
+              <strong className="font-medium text-[11px] text-zinc-300">
+                Welcome back
+              </strong>
+
+              <p className="font-medium text-[11px] text-zinc-300">
+                {dayjs().format('YYYY, DD MMM')}
+              </p>
+            </header>
+
+            {children}
+          </div>
         </main>
       </body>
     </html>

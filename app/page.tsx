@@ -1,20 +1,9 @@
-import { WritingArea } from '@/components/writing-area'
-import {
-  AlignJustify,
-  AlignLeft,
-  AlignRight,
-  Baseline,
-  Bold,
-  ChevronsUpDown,
-  Italic,
-  Search,
-  Underline,
-} from 'lucide-react'
+import { Editor } from '@/components/editor'
 
 export default function Home() {
   return (
     <div className="p-16 h-full">
-      <header className="flex items-center justify-center gap-8 px-5 bg-zinc-200/50 dark:bg-zinc-800/50 w-full h-16 rounded-xl">
+      {/* <header className="flex items-center justify-center gap-8 px-5 bg-zinc-200/50 dark:bg-zinc-800/50 w-full h-16 rounded-xl">
         <div className="flex items-center gap-2.5">
           <p className="text-xs">Inter Std</p>
 
@@ -53,9 +42,9 @@ export default function Home() {
             className="dark:bg-zinc-950 max-w-[12rem] outline-none px-4 h-10 bg-white text-xs"
           />
         </form>
-      </header>
+      </header> */}
 
-      <WritingArea />
+      <Editor />
     </div>
   )
 }
