@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.44.3",
     "@tiptap/extension-placeholder": "^2.4.0",
     "@tiptap/pm": "^2.4.0",
     "@tiptap/react": "^2.4.0",
