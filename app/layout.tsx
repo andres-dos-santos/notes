@@ -1,8 +1,5 @@
 import type { Metadata } from 'next'
 import { Inter, Urbanist } from 'next/font/google'
-import dayjs from 'dayjs'
-
-import { Menu } from '@/components/menu'
 
 import './globals.css'
 
@@ -25,19 +22,9 @@ export default function RootLayout({
         className={`${inter.variable} ${urbanist.variable} antialiased flex overflow-hidden items-center justify-center w-screen h-screen`}
       >
         <main className="max-w-[1240px] h-[800px] mx-auto flex border dark:border-zinc-800 shadow-lg shadow-zinc-900">
-          <Menu />
+          {/* <Menu /> */}
 
-          <div className="h-[800px] w-[calc(100vw_-_24rem)] overflow-auto bg-zinc-900">
-            <header className="flex items-center px-5 h-10 border-b dark:border-zinc-800 justify-between">
-              <strong className="font-medium text-[11px] text-zinc-300">
-                Welcome back
-              </strong>
-
-              <p className="font-medium text-[11px] text-zinc-300">
-                {dayjs().format('YYYY, DD MMM')}
-              </p>
-            </header>
-
+          <div className="h-[800px] w-[calc(100vw_-_24rem)] overflow-auto bg-zinc-900 relative">
             {children}
           </div>
         </main>

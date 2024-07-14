@@ -37,4 +37,35 @@ body {
   body {
     text-rendering: optimizeLegibility;
   }
+
+  ul[data-type="taskList"] {
+    list-style: none;
+    margin-left: -20px;
+  }
+
+  ul[data-type="taskList"] li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    position: relative; 
+    flex-shrink: 0; 
+    flex-grow: 0; 
+    display: flex;
+    align-items: center; 
+    justify-content: center; 
+  }
+
+  input[type="checkbox"] {
+    position: absolute; 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 16px; 
+    height: 16px; 
+    border: 2px solid #52525b;
+    top: 0px; 
+    left: 0px; 
+    cursor: pointer;
+  }
 }
