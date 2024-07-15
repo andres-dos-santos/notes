@@ -3,39 +3,33 @@
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Placeholder from '@tiptap/extension-placeholder'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import TaskList from '@tiptap/extension-task-list'
 import TaskItem from '@tiptap/extension-task-item'
 import dayjs from 'dayjs'
-import { ChevronLeft, ChevronRight, LoaderCircle, MenuIcon } from 'lucide-react'
+import { LoaderCircle, MenuIcon } from 'lucide-react'
 import isToday from 'dayjs/plugin/isToday'
+import { toast } from 'sonner'
 
 import { supabase } from '@/data/supabase'
 
+import { useSaveLocalStorage } from '@/hooks/use-save-local-storage'
+import { useSaveAfterKeydown } from '@/hooks/use-save-after-keydown'
+
+import { ThemeChanger } from './theme-changer'
+import { DatePicker } from './date-picker'
+
 dayjs.extend(isToday)
-
-let interval: NodeJS.Timeout
-
-// async function getContent() {
-//   // PEGAR O CONTEÚDO DO DIA
-//   const html = localStorage.getItem('preview-content')
-
-//   await supabase.from('notes').insert({ html })
-// }
 
 const TODAY = dayjs().format('YYYY-MM-DD')
 
-async function saveContent(textHtml: string) {
-  await supabase.from('notes').insert({ html: textHtml, date: TODAY })
-}
+const savedAsDraft = localStorage.getItem('preview-content')
 
-async function updateContent(textHtml: string) {
-  await supabase.from('notes').update({ html: textHtml }).eq('date', TODAY)
-}
-
-export function Editor(props: { html: string | undefined }) {
+export function Editor(props: {
+  html: string | undefined
+  id: string | undefined
+}) {
   const [loading, setLoading] = useState(false)
-  const [daysAhead, setDaysAhead] = useState(0)
 
   const editor = useEditor({
     extensions: [
@@ -57,70 +51,63 @@ export function Editor(props: { html: string | undefined }) {
     },
   })
 
-  useEffect(() => {
-    interval = setInterval(() => {
-      if (editor) localStorage.setItem('preview-content', editor.getHTML())
-    }, 10000)
+  async function handleSave() {
+    setLoading(true)
 
-    return () => {
-      clearInterval(interval)
+    const html = editor?.getHTML()
+
+    if (!html) {
+      setLoading(false)
+
+      toast(`Unable to find publisher.`)
+
+      return
     }
-  }, [editor])
 
-  const date = dayjs().add(daysAhead, 'day').format('MMM DD')
+    if (!props.html) {
+      await supabase.from('notes').insert({ html, date: TODAY })
 
-  const formattedDate = date === dayjs().format('MMM DD') ? 'Today' : date
+      return
+    }
+
+    if (props.html !== html || savedAsDraft === html) {
+      await supabase.from('notes').update({ html }).eq('id', props?.id)
+    }
+
+    setLoading(false)
+  }
+
+  useSaveAfterKeydown(handleSave)
+
+  useSaveLocalStorage(editor)
 
   return (
     <>
-      <header className="absolute top-0 w-full bg-zinc-800 z-10 flex items-center px-5 h-10 border-b dark:border-zinc-800 justify-between">
-        <strong className="font-medium text-[11px] text-zinc-300">
-          Welcome back
-        </strong>
+      <header className="absolute top-0 w-full bg-zinc-200 dark:bg-zinc-800 z-10 flex items-center px-5 h-10 border-b dark:border-zinc-800 justify-between">
+        <div className="w-[40%]">
+          <strong className="font-medium text-[11px] text-zinc-700 dark:text-zinc-300">
+            Welcome back
+          </strong>
+        </div>
 
-        <nav className="flex items-center justify-center gap-2.5 flex-1">
-          <button onClick={() => setDaysAhead((prev) => prev - 1)}>
-            <ChevronLeft size={16} />
-          </button>
+        <DatePicker />
 
-          <p className="font-semibold text-[11px] text-zinc-300">
-            {formattedDate}
-          </p>
+        <div className="flex items-center justify-end gap-5 w-[40%]">
+          <div className="flex items-center justify-center gap-2.5">
+            {loading && <LoaderCircle className="animate-spin" size={14} />}
+            <p className="text-[10px] tracking-wide font-medium text-zinc-500 dark:text-zinc-400">
+              CTRL + S to save
+            </p>
+          </div>
 
-          <button onClick={() => setDaysAhead((prev) => prev + 1)}>
-            <ChevronRight size={16} />
-          </button>
-        </nav>
-
-        <div className="flex items-center gap-4">
-          <button
-            disabled={!editor}
-            onClick={() => {
-              setLoading(true)
-
-              props.html
-                ? updateContent(editor!.getHTML()).finally(() =>
-                    setLoading(false),
-                  )
-                : saveContent(editor!.getHTML()).finally(() =>
-                    setLoading(false),
-                  )
-            }}
-            className="disabled:cursor-not-allowed disabled:text-blue-800 text-blue-500"
-          >
-            {loading ? (
-              <LoaderCircle className="animate-spin" size={14} />
-            ) : (
-              <p className="text-[9px] tracking-wide font-semibold">SAVE</p>
-            )}
-          </button>
+          <ThemeChanger />
 
           <MenuIcon size={18} />
         </div>
       </header>
 
       <EditorContent
-        className="pb-5 pt-20 w-full min-h-[800px] prose prose-p:text-xs prose-p:font-medium overflow-auto prose-invert prose-sm prose-h1:text-xl prose-h2:text-base prose-h3:text-sm prose-h4:text-sm"
+        className="pb-5 px-10 pt-20 w-full min-h-[800px] prose prose-p:text-xs prose-p:font-medium overflow-auto prose-zinc dark:prose-invert prose-sm prose-h1:text-xl prose-h2:text-base prose-h3:text-sm prose-h4:text-sm"
         editor={editor}
       />
     </>
