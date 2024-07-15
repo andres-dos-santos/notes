@@ -8,12 +8,12 @@ import { useSearchParams } from 'next/navigation'
 export function DatePicker() {
   const searchParams = useSearchParams()
 
-  const date = searchParams.get('date')
+  const date = searchParams.get('from')
 
   return (
     <nav className="flex items-center justify-center gap-2.5 h-full w-[20%]">
       <Link
-        href={`/?date=${dayjs(date).subtract(1, 'day').format('YYYY-MM-DD')}`}
+        href={`/date/?from=${dayjs(date).subtract(1, 'day').format('YYYY-MM-DD')}`}
       >
         <ChevronLeft size={16} />
       </Link>
@@ -22,7 +22,9 @@ export function DatePicker() {
         {dayjs(date).format('DD MMM')}
       </p>
 
-      <Link href={`/?date=${dayjs(date).add(1, 'day').format('YYYY-MM-DD')}`}>
+      <Link
+        href={`/date/?from=${dayjs(date).add(1, 'day').format('YYYY-MM-DD')}`}
+      >
         <ChevronRight size={16} />
       </Link>
     </nav>

@@ -10,8 +10,8 @@ async function getContent(date: string) {
   return data ? data[0] : {}
 }
 
-export default async function Home(props: { searchParams: { date: string } }) {
-  const data = await getContent(props.searchParams.date)
+export default async function Home(props: { searchParams: { from: string } }) {
+  const data = await getContent(props.searchParams.from)
 
   return (
     <div className="flex flex-col items-center justify-center h-[800px]">

@@ -67,6 +67,8 @@ export function Editor(props: {
     if (!props.html) {
       await supabase.from('notes').insert({ html, date: TODAY })
 
+      setLoading(false)
+
       return
     }
 
