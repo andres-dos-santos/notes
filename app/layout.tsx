@@ -1,11 +1,11 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import { Toaster } from '@/components/ui/sonner'
+import { ThemeProvider } from 'next-themes'
 
+import { Toaster } from '@/components/ui/sonner'
 import { cn } from '@/lib/utils'
 
 import './globals.css'
-import { ThemeProvider } from 'next-themes'
 
 const fontSans = Inter({ subsets: ['latin'], variable: '--font-sans' })
 
