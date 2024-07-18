@@ -28,6 +28,7 @@ const savedAsDraft = localStorage.getItem('preview-content')
 export function Editor(props: {
   html: string | undefined
   id: string | undefined
+  from: string
 }) {
   const [loading, setLoading] = useState(false)
 
@@ -42,7 +43,7 @@ export function Editor(props: {
     ],
     content:
       props.html ||
-      `Oi Andres, hoje é dia ${dayjs().format('DD [de] MMM')}, mantenha o foco...`,
+      `Oi Andres, hoje é dia ${dayjs(props.from).format('DD [de] MMM')}, mantenha o foco...`,
     autofocus: true,
     editorProps: {
       attributes: {
@@ -59,7 +60,7 @@ export function Editor(props: {
     if (!html) {
       setLoading(false)
 
-      toast(`Unable to find publisher.`)
+      toast('Unable to find publisher.')
 
       return
     }
@@ -85,8 +86,8 @@ export function Editor(props: {
 
   return (
     <>
-      <header className="absolute top-0 w-full bg-zinc-200 dark:bg-zinc-800 z-10 flex items-center px-5 h-10 border-b dark:border-zinc-800 justify-between">
-        <div className="w-[40%]">
+      <header className="absolute top-0 w-full bg-zinc-200 dark:bg-zinc-800 z-10 flex items-center px-5 h-16 sm:h-10 border-b dark:border-zinc-800 justify-between">
+        <div className="hidden sm:flex w-[40%]">
           <strong className="font-medium text-[11px] text-zinc-700 dark:text-zinc-300">
             Welcome back
           </strong>
@@ -95,7 +96,7 @@ export function Editor(props: {
         <DatePicker />
 
         <div className="flex items-center justify-end gap-5 w-[40%]">
-          <div className="flex items-center justify-center gap-2.5">
+          <div className="hidden sm:flex items-center justify-center gap-2.5">
             {loading && <LoaderCircle className="animate-spin" size={14} />}
             <p className="text-[10px] tracking-wide font-medium text-zinc-500 dark:text-zinc-400">
               CTRL + S to save
@@ -109,7 +110,7 @@ export function Editor(props: {
       </header>
 
       <EditorContent
-        className="pb-5 px-10 pt-20 w-full min-h-[800px] prose prose-p:text-xs prose-p:font-medium overflow-auto prose-zinc dark:prose-invert prose-sm prose-h1:text-xl prose-h2:text-base prose-h3:text-sm prose-h4:text-sm"
+        className="pb-5 px-10 pt-20 sm:w-full min-h-[800px] prose prose-p:text-xs prose-p:font-medium overflow-auto prose-zinc dark:prose-invert prose-sm prose-h1:text-xl prose-h2:text-base prose-h3:text-sm prose-h4:text-sm"
         editor={editor}
       />
     </>

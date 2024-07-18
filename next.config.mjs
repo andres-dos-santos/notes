@@ -7,7 +7,7 @@ const nextConfig = {
     return [
       {
         source: '/',
-        destination: `/date/?from=${dayjs().format('YYYY-MM-DD')}`,
+        destination: `/notes?from=${dayjs(new Date()).format('YYYY-MM-DD')}`,
         permanent: false,
       },
     ]
