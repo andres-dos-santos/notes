@@ -40,6 +40,7 @@ export default function Home(props: { searchParams: { from: string } }) {
   const editor = useEditor({
     extensions: [StarterKit],
     autofocus: true,
+    content: '',
     editorProps: {
       attributes: {
         class: 'outline-none',
@@ -101,15 +102,17 @@ export default function Home(props: { searchParams: { from: string } }) {
   }, [props.searchParams.from, editor])
 
   return (
-    <div className="flex flex-col items-center justify-center sm:h-[800px]">
+    <div className="sm:max-w-[1240px] min-h-screen sm:min-h-[800px] sm:h-[800px] sm:mx-auto sm:w-[calc(100vw_-_24rem)] relative">
       <Header loading={loading} />
 
-      {editor ? (
-        <EditorContent
-          className="pb-5 px-10 pt-20 sm:w-full min-h-[800px] prose prose-p:text-xs prose-p:font-medium overflow-auto prose-zinc dark:prose-invert prose-sm prose-h1:text-xl prose-h2:text-base prose-h3:text-sm prose-h4:text-sm"
-          editor={editor}
-        />
-      ) : null}
+      <div className="flex-col items-center justify-center flex border dark:border-zinc-800 overflow-auto bg-zinc-100/50 dark:bg-zinc-900 relative rounded-lg">
+        {editor ? (
+          <EditorContent
+            className="pb-5 px-10 pt-20 sm:w-full min-h-[800px] prose prose-p:text-[13px] prose-p:font-medium overflow-auto prose-zinc dark:prose-invert prose-sm prose-h1:text-xl prose-h2:text-base prose-h3:text-sm prose-h4:text-sm"
+            editor={editor}
+          />
+        ) : null}
+      </div>
     </div>
   )
 }

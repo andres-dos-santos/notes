@@ -11,7 +11,7 @@ export function DatePicker() {
   const date = searchParams.get('from')
 
   return (
-    <nav className="flex items-center justify-center gap-2.5 h-full w-[25%] sm:w-[20%]">
+    <nav className="flex items-center justify-center gap-2.5 h-full w-[12%] sm:w-[8%]">
       <Link
         href={`/notes?from=${dayjs(date).subtract(1, 'day').format('YYYY-MM-DD')}`}
       >
