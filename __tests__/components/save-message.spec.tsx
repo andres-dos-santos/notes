@@ -1,10 +1,14 @@
 import { render } from '@testing-library/react'
 
-import { Header } from '@/components/header'
+import { SaveMessage } from '@/components/save-message'
 
 describe('<Header />', () => {
   it('should be render', () => {
-    const { getByText } = render(<Header loading={false} />)
+    const { getByText } = render(
+      <SaveMessage>
+        <></>
+      </SaveMessage>,
+    )
 
     expect(getByText('CTRL + S to save')).toBeInTheDocument()
   })
