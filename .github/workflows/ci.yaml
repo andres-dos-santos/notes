@@ -1,0 +1,20 @@
+name: CI
+
+on: push
+
+jobs:
+  continuos-integration:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: use nodejs
+        uses: actions/setup-node@v2
+        with:
+          node-version: 22.
+      - name: run install, build and test
+        run:  |
+          npm install
+          npm run build
+          npm run test
+
