@@ -1,6 +1,10 @@
 name: CI
 
-on: push
+on:
+  push:
+    branches:
+      - main
+      - test
 
 jobs:
   CI:
@@ -14,7 +18,8 @@ jobs:
         with:
           node-version: 22.
 
-      - name: Load environments variables
+      - name: Set env variables for main
+        if: github.ref == 'refs/heads/main'
         run:  |
           echo "NEXT_PUBLIC_SUPABASE_ANON_KEY=${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}" >> $GITHUB_ENV
           echo "NEXT_PUBLIC_SUPABASE_URL=${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}" >> $GITHUB_ENV
