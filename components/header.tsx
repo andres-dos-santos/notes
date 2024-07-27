@@ -3,6 +3,7 @@ import { Suspense } from 'react'
 
 import { DatePicker } from './date-picker'
 import { ThemeChanger } from './theme-changer'
+import { SaveMessage } from './save-message'
 
 export function Header({ loading }: { loading: boolean }) {
   return (
@@ -18,12 +19,9 @@ export function Header({ loading }: { loading: boolean }) {
       </button>
 
       <div className="flex items-center justify-end gap-5 w-[40%] ml-auto">
-        <div className="hidden sm:flex items-center justify-center gap-2.5">
+        <SaveMessage>
           {loading && <LoaderCircle className="animate-spin" size={14} />}
-          <p className="text-[10px] tracking-wide font-medium text-zinc-500 dark:text-zinc-400">
-            CTRL + S to save
-          </p>
-        </div>
+        </SaveMessage>
 
         <ThemeChanger />
 
