@@ -3,16 +3,23 @@ name: CI
 on: push
 
 jobs:
-  continuos-integration:
+  CI:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v3
-      - name: use nodejs
+
+      - name: Use NodeJS
         uses: actions/setup-node@v2
         with:
           node-version: 22.
-      - name: run install, build and test
+
+      - name: Load environments variables
+        run:  |
+          echo "NEXT_PUBLIC_SUPABASE_ANON_KEY=${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}" >> $GITHUB_ENV
+          echo "NEXT_PUBLIC_SUPABASE_URL=${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}" >> $GITHUB_ENV
+      
+      - name: Run npm install, build and test
         run:  |
           npm install
           npm run build
