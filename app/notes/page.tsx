@@ -17,6 +17,7 @@ import { Auth } from '@/components/auth'
 import { supabase } from '@/data/supabase'
 
 import { useSaveAfterKeydown } from '@/hooks/use-save-after-keydown'
+import { getSession } from '../actions'
 
 dayjs.extend(isToday)
 
@@ -68,7 +69,11 @@ export default function Home(props: { searchParams: { from: string } }) {
     }
 
     if (!data?.html) {
-      await supabase.from('notes').insert({ html, date: TODAY })
+      const cookie = await getSession()
+
+      await supabase
+        .from('notes')
+        .insert({ html, date: TODAY, user_id: cookie?.value })
 
       setLoading(false)
 
@@ -106,6 +111,8 @@ export default function Home(props: { searchParams: { from: string } }) {
       })
     }
   }, [props.searchParams.from, editor])
+
+  useEffect(() => {}, [])
 
   return (
     <div className="sm:max-w-[1240px] min-h-screen sm:min-h-[800px] sm:h-[800px] sm:mx-auto sm:w-[calc(100vw_-_24rem)] relative">

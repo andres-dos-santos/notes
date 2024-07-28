@@ -23,14 +23,12 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
-          'min-h-screen bg-background font-sans antialiased flex items-center justify-center',
+          'min-h-screen bg-background font-sans antialiased flex items-center justify-center overflow-hidden',
           fontSans.variable,
         )}
       >
         <ThemeProvider attribute="class">
-          <div className="w-screen h-screen flex items-center justify-center">
-            {children}
-          </div>
+          <div className="flex items-center justify-center">{children}</div>
         </ThemeProvider>
 
         <Toaster />
